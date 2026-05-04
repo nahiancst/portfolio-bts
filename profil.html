@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profil — Nahian CHISTY</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .profil-layout > div > * { opacity: 1 !important; transform: none !important; }
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: #00d4ff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    mix-blend-mode: difference;
+    transition: width 0.2s, height 0.2s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid #00d4ff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    opacity: 0.5;
+  }
+</style>
 </head>
 <body>
 
@@ -13,13 +38,13 @@
 
 <nav>
   <a href="index.html" class="nav-logo">NC.</a>
-  <ul class="nav-links">
+    <ul class="nav-links">
     <li><a href="index.html">Accueil</a></li>
     <li><a href="profil.html">Profil</a></li>
-    <li><a href="competences.html">Compétences</a></li>
-    <li><a href="projets.html">Projets</a></li>
     <li><a href="stages.html">Stages</a></li>
     <li><a href="veille.html">Veille</a></li>
+    <li><a href="e5.html">E5</a></li>
+    <li><a href="e6.html">E6</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
 </nav>
@@ -36,7 +61,7 @@
 
       <!-- Sidebar -->
       <div>
-        <div class="avatar-card reveal">
+        <div class="avatar-card">
           <div class="avatar">NC</div>
           <div class="avatar-name">Nahian CHISTY</div>
           <div class="avatar-role">BTS SIO · SISR</div>
@@ -55,7 +80,7 @@
 
       <!-- Main content -->
       <div>
-        <div class="card reveal">
+        <div class="card">
           <div class="card-accent"></div>
           <h2><span class="icon">👤</span> Présentation</h2>
           <p>
@@ -73,7 +98,7 @@
           </p>
         </div>
 
-        <div class="card reveal">
+        <div class="card">
           <div class="card-accent"></div>
           <h2><span class="icon">🎓</span> Parcours scolaire</h2>
 
@@ -99,7 +124,7 @@
           </div>
         </div>
 
-        <div class="card reveal">
+        <div class="card">
           <div class="card-accent"></div>
           <h2><span class="icon">✨</span> Qualités personnelles</h2>
           <div class="quality-list">
@@ -118,9 +143,31 @@
 
 <footer>
   <span>© 2025 Nahian CHISTY — BTS SIO SISR · EFREI Villejuif</span>
-  <span style="color:var(--accent)">Portfolio E5</span>
+  <span style="color:var(--accent)">Portfolio E5 · E6</span>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  const cursor = document.querySelector('.cursor');
+  const cursorRing = document.querySelector('.cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    if (cursor) { cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; }
+  });
+
+  function animateCursor() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    if (cursorRing) { cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px'; }
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if (a.getAttribute('href') === currentPage) a.classList.add('active');
+  });
+</script>
 </body>
 </html>
