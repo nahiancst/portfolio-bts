@@ -5,6 +5,172 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Épreuve E6 — Nahian CHISTY</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .phases-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .phases-timeline::before {
+    content: '';
+    position: absolute;
+    left: 36px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent3), transparent);
+  }
+  .phase-item {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    position: relative;
+    padding-bottom: 32px;
+  }
+  .phase-item:last-child { padding-bottom: 0; }
+  .phase-number {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,212,255,0.03));
+    border: 2px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0,212,255,0.15);
+  }
+  .phase-num { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--accent); line-height:1; }
+  .phase-mini { font-size:0.55rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-top:2px; }
+  .phase-content { flex: 1; padding-top: 8px; }
+  .phase-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .phase-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .phase-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .phase-desc ul { list-style:none; margin-top: 10px; }
+  .phase-desc ul li { position:relative; padding-left:16px; margin-bottom:5px; }
+  .phase-desc ul li::before { content:'▹'; position:absolute; left:0; color:var(--accent); font-size:0.75rem; top:1px; }
+
+  .total-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 54px;
+  }
+  .total-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .total-seg-time { font-family:'Syne',sans-serif; font-size:1rem; font-weight:800; }
+
+  .competences-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 0;
+  }
+  .comp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .comp-card:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-3px); }
+  .comp-icon { font-size: 1.6rem; margin-bottom: 10px; display:block; }
+  .comp-title { font-family:'Syne',sans-serif; font-size:0.92rem; font-weight:700; color:#fff; margin-bottom:8px; }
+
+  .doc-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glow);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .doc-card:hover {
+    border-color: rgba(0,212,255,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .doc-card:hover::before { opacity: 1; }
+  .doc-card-top { display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+  .doc-card-icon {
+    width: 54px; height: 54px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .doc-card-meta { font-size:0.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; font-weight:700; margin-bottom:4px; }
+  .doc-card-title { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:800; color:#fff; }
+  .doc-card p { font-size:0.88rem; color:var(--muted); line-height:1.65; margin-bottom:16px; }
+  .doc-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .doc-card-open {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .competences-grid { grid-template-columns: 1fr; }
+    .total-bar { height: auto; flex-direction: column; }
+    .phases-timeline::before { left: 28px; }
+    .phase-number { width: 56px; height: 56px; }
+  }
+</style>
 </head>
 <body>
 
@@ -13,11 +179,9 @@
 
 <nav>
   <a href="index.html" class="nav-logo">NC.</a>
-  <ul class="nav-links">
+    <ul class="nav-links">
     <li><a href="index.html">Accueil</a></li>
     <li><a href="profil.html">Profil</a></li>
-    <li><a href="competences.html">Compétences</a></li>
-    <li><a href="projets.html">Projets</a></li>
     <li><a href="stages.html">Stages</a></li>
     <li><a href="veille.html">Veille</a></li>
     <li><a href="e5.html">E5</a></li>
@@ -28,213 +192,310 @@
 
 <main class="page">
   <div class="page-header">
-    <div class="section-tag">BTS SIO · Épreuve</div>
+    <div class="section-tag">BTS SIO · Épreuve pratique</div>
     <h1>Épreuve E6</h1>
-    <p>Cybersécurité des services informatiques — Analyse, protection et sensibilisation.</p>
+    <p>Mise en situation professionnelle — Administration des systèmes et réseaux (SISR).</p>
   </div>
 
   <div class="section" style="padding-top:0;">
 
-    <!-- Définition E6 -->
+    <!-- Présentation -->
     <div class="card reveal" style="margin-bottom:40px;">
       <div class="card-accent"></div>
-      <h2><span class="icon">🔐</span> Qu'est-ce que l'épreuve E6 ?</h2>
+      <h2><span class="icon">🎯</span> Qu'est-ce que l'épreuve E6 ?</h2>
       <p>
-        L'épreuve E6, intitulée <strong style="color:var(--accent)">« Cybersécurité des services informatiques »</strong>,
-        est une épreuve écrite et pratique du BTS SIO. Elle évalue la capacité du candidat à identifier les risques,
-        mettre en œuvre des solutions de sécurité et sensibiliser les utilisateurs aux bonnes pratiques numériques.
+        L'épreuve E6 est une <strong style="color:var(--accent)">épreuve pratique de mise en situation professionnelle</strong>.
+        Le candidat reçoit une problématique client concrète qu'il doit analyser, résoudre et défendre devant un jury.
+        Elle repose également sur la présentation de deux situations professionnelles préalablement documentées.
       </p>
       <p style="margin-top:12px;">
-        Pour l'option SISR, l'épreuve est particulièrement axée sur la sécurisation des infrastructures réseau,
-        la protection des systèmes d'exploitation serveur et la gestion des accès.
+        Pour l'option <strong style="color:var(--accent)">SISR</strong>, les problématiques portent sur
+        l'administration des systèmes et réseaux : configuration de serveurs, gestion des accès,
+        déploiement de services, sécurisation des infrastructures.
       </p>
-      <div style="display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;">
-        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:160px;">
-          <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Coefficient</div>
-          <div style="font-size:1.8rem;font-family:'Syne',sans-serif;font-weight:800;color:#fff;">3</div>
+      <p style="margin-top:12px;">
+        Cette épreuve évalue à la fois les <strong style="color:var(--text)">compétences techniques</strong>,
+        la capacité d'<strong style="color:var(--text)">analyse</strong> et les qualités de
+        <strong style="color:var(--text)">communication</strong> du candidat.
+      </p>
+
+      <!-- Infos clés -->
+      <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;">
+        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:130px;">
+          <div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Durée totale</div>
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;">2h10</div>
         </div>
-        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:160px;">
-          <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Format</div>
-          <div style="font-size:1rem;font-family:'Syne',sans-serif;font-weight:700;color:#fff;">Écrit + Pratique</div>
+        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:130px;">
+          <div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Format</div>
+          <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#fff;">Pratique + Oral</div>
         </div>
-        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:160px;">
-          <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Durée écrit</div>
-          <div style="font-size:1.8rem;font-family:'Syne',sans-serif;font-weight:800;color:#fff;">3h</div>
+        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:130px;">
+          <div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Phases</div>
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;">4</div>
+        </div>
+        <div style="background:rgba(0,212,255,0.06);border:1px solid var(--border);border-radius:10px;padding:14px 20px;flex:1;min-width:130px;">
+          <div style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Dossiers remis</div>
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;">2 SPS</div>
         </div>
       </div>
     </div>
 
-    <!-- Blocs de compétences E6 -->
+    <!-- Barre visuelle du temps -->
+    <div class="section-header" style="margin-bottom:20px;">
+      <div class="section-tag">Déroulement</div>
+      <h2 class="section-title">Les 4 phases de l'épreuve</h2>
+    </div>
+
+    <div class="total-bar reveal">
+      <div class="total-seg" style="flex:30;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.25);border-radius:10px 4px 4px 10px;color:var(--accent);">
+        <span class="total-seg-time">30 min</span>
+        <span>Préparation</span>
+      </div>
+      <div class="total-seg" style="flex:20;background:rgba(126,255,212,0.08);border:1px solid rgba(126,255,212,0.2);border-radius:4px;color:var(--accent3);">
+        <span class="total-seg-time">20 min</span>
+        <span>Exposé</span>
+      </div>
+      <div class="total-seg" style="flex:60;background:rgba(0,153,204,0.12);border:1px solid rgba(0,153,204,0.3);border-radius:4px;color:#7dd3fc;">
+        <span class="total-seg-time">1 heure</span>
+        <span>Réalisation</span>
+      </div>
+      <div class="total-seg" style="flex:20;background:rgba(255,200,100,0.08);border:1px solid rgba(255,200,100,0.2);border-radius:4px 10px 10px 4px;color:#fcd34d;">
+        <span class="total-seg-time">20 min</span>
+        <span>Audit</span>
+      </div>
+    </div>
+
+    <!-- Timeline des phases -->
+    <div class="card reveal" style="margin-bottom:40px;">
+      <div class="card-accent"></div>
+      <div class="phases-timeline">
+
+        <div class="phase-item">
+          <div class="phase-number">
+            <span class="phase-num">1</span>
+            <span class="phase-mini">Phase</span>
+          </div>
+          <div class="phase-content">
+            <div class="phase-duration">⏱ 30 minutes · Préparation</div>
+            <div class="phase-title">Analyse de la problématique client</div>
+            <div class="phase-desc">
+              Le candidat reçoit une problématique technique concrète à résoudre.
+              <ul>
+                <li>Lire attentivement l'énoncé et identifier les points clés</li>
+                <li>Rechercher plusieurs solutions techniques possibles</li>
+                <li>Évaluer la faisabilité dans le temps imparti</li>
+                <li>Préparer la présentation des solutions au jury</li>
+                <li>Schématiser et organiser sa démarche sur brouillon</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-number" style="border-color:var(--accent3);background:linear-gradient(135deg,rgba(126,255,212,0.12),rgba(126,255,212,0.03));">
+            <span class="phase-num" style="color:var(--accent3);">2</span>
+            <span class="phase-mini">Phase</span>
+          </div>
+          <div class="phase-content">
+            <div class="phase-duration" style="color:var(--accent3);background:rgba(126,255,212,0.06);border-color:rgba(126,255,212,0.2);">⏱ 20 minutes · Exposé &amp; Orientation</div>
+            <div class="phase-title">Présentation des solutions au jury</div>
+            <div class="phase-desc">
+              Le candidat expose son analyse et défend son choix de solution devant le jury.
+              <ul>
+                <li>Présenter les différentes solutions identifiées</li>
+                <li>Comparer les avantages et inconvénients de chaque option</li>
+                <li>Justifier la solution retenue avec des arguments techniques</li>
+                <li>Expliquer la méthodologie d'implémentation prévue</li>
+                <li>Écouter et intégrer les éventuelles remarques du jury</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-number" style="border-color:#7dd3fc;background:linear-gradient(135deg,rgba(0,153,204,0.15),rgba(0,153,204,0.03));">
+            <span class="phase-num" style="color:#7dd3fc;">3</span>
+            <span class="phase-mini">Phase</span>
+          </div>
+          <div class="phase-content">
+            <div class="phase-duration" style="color:#7dd3fc;background:rgba(0,153,204,0.08);border-color:rgba(0,153,204,0.25);">⏱ 1 heure · Réalisation</div>
+            <div class="phase-title">Mise en œuvre concrète de la solution</div>
+            <div class="phase-desc">
+              Le candidat implémente techniquement la solution dans un environnement informatique réel.
+              <ul>
+                <li>Configurer, déployer ou paramétrer la solution retenue</li>
+                <li>Commencer par les éléments essentiels (gestion du temps)</li>
+                <li>Tester la solution au fur et à mesure de l'avancement</li>
+                <li>Documenter les étapes réalisées</li>
+                <li>Simplifier si nécessaire pour tenir dans le temps imparti</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-item">
+          <div class="phase-number" style="border-color:#fcd34d;background:linear-gradient(135deg,rgba(255,200,100,0.12),rgba(255,200,100,0.03));">
+            <span class="phase-num" style="color:#fcd34d;">4</span>
+            <span class="phase-mini">Phase</span>
+          </div>
+          <div class="phase-content">
+            <div class="phase-duration" style="color:#fcd34d;background:rgba(255,200,100,0.06);border-color:rgba(255,200,100,0.2);">⏱ 20 minutes · Audit du jury</div>
+            <div class="phase-title">Test et défense de la réalisation</div>
+            <div class="phase-desc">
+              Le jury évalue le travail réalisé, pose des questions et teste les connaissances.
+              <ul>
+                <li>Démontrer la maîtrise de la solution mise en place</li>
+                <li>Répondre aux questions techniques avec un vocabulaire métier précis</li>
+                <li>Expliquer clairement sa démarche et ses choix</li>
+                <li>Reconnaître honnêtement les limites et proposer des pistes d'amélioration</li>
+                <li>Rester calme face aux questions pointues du jury</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Compétences évaluées -->
     <div style="margin-bottom:48px;">
       <div class="section-header" style="margin-bottom:24px;">
-        <div class="section-tag">Référentiel</div>
-        <h2 class="section-title">Compétences cybersécurité évaluées</h2>
+        <div class="section-tag">Référentiel SISR</div>
+        <h2 class="section-title">Compétences évaluées</h2>
       </div>
 
-      <div class="card-grid">
-
-        <div class="card reveal">
-          <div class="card-accent"></div>
-          <h2><span class="icon">🔍</span> Analyser les risques</h2>
-          <p>Identifier et évaluer les risques liés à la sécurité des systèmes d'information : menaces, vulnérabilités et impacts potentiels.</p>
-          <ul style="margin-top:12px;">
-            <li>Cartographie des menaces (ANSSI)</li>
-            <li>Analyse des vulnérabilités (CVE)</li>
-            <li>Évaluation de l'impact sur le SI</li>
+      <div class="competences-grid reveal">
+        <div class="comp-card">
+          <span class="comp-icon">⚙️</span>
+          <div class="comp-title">Compétences techniques</div>
+          <ul class="card" style="background:none;border:none;padding:0;box-shadow:none;">
+            <li>Configuration de systèmes et réseaux</li>
+            <li>Déploiement de solutions logicielles</li>
+            <li>Sécurisation des infrastructures</li>
+            <li>Gestion de bases de données</li>
+            <li>Administration Windows Server / Linux</li>
           </ul>
-          <div class="skill-tags" style="margin-top:14px;">
-            <span class="tag">Analyse de risques</span>
-            <span class="tag">CVE</span>
-          </div>
         </div>
-
-        <div class="card reveal">
-          <div class="card-accent"></div>
-          <h2><span class="icon">🛡️</span> Protéger les systèmes</h2>
-          <p>Mettre en œuvre des solutions techniques pour sécuriser les infrastructures, réseaux et systèmes d'exploitation.</p>
-          <ul style="margin-top:12px;">
-            <li>Configuration pare-feu PfSense</li>
-            <li>Durcissement Windows Server / Linux</li>
-            <li>Gestion des droits et des accès (AD)</li>
+        <div class="comp-card">
+          <span class="comp-icon">🧠</span>
+          <div class="comp-title">Compétences analytiques</div>
+          <ul class="card" style="background:none;border:none;padding:0;box-shadow:none;">
+            <li>Analyse des besoins clients</li>
+            <li>Identification des contraintes techniques</li>
+            <li>Évaluation et comparaison de solutions</li>
+            <li>Gestion des priorités sous contrainte temps</li>
+            <li>Résolution de problèmes complexes</li>
           </ul>
-          <div class="skill-tags" style="margin-top:14px;">
-            <span class="tag">PfSense</span>
-            <span class="tag">Active Directory</span>
-          </div>
         </div>
-
-        <div class="card reveal">
-          <div class="card-accent"></div>
-          <h2><span class="icon">📡</span> Surveiller les systèmes</h2>
-          <p>Superviser les infrastructures pour détecter les anomalies, incidents de sécurité et tentatives d'intrusion.</p>
-          <ul style="margin-top:12px;">
-            <li>Lecture et analyse des journaux (logs)</li>
-            <li>Détection d'anomalies réseau</li>
-            <li>Réponse aux incidents de sécurité</li>
+        <div class="comp-card">
+          <span class="comp-icon">🗣️</span>
+          <div class="comp-title">Compétences communicationnelles</div>
+          <ul class="card" style="background:none;border:none;padding:0;box-shadow:none;">
+            <li>Présentation claire des solutions</li>
+            <li>Argumentation technique structurée</li>
+            <li>Vulgarisation des concepts informatiques</li>
+            <li>Réactivité face aux questions jury</li>
+            <li>Documentation du travail réalisé</li>
           </ul>
-          <div class="skill-tags" style="margin-top:14px;">
-            <span class="tag">Monitoring</span>
-            <span class="tag">Logs</span>
-          </div>
         </div>
-
-        <div class="card reveal">
-          <div class="card-accent"></div>
-          <h2><span class="icon">📢</span> Sensibiliser les utilisateurs</h2>
-          <p>Informer et former les utilisateurs aux bonnes pratiques de sécurité informatique pour réduire les risques humains.</p>
-          <ul style="margin-top:12px;">
-            <li>Politique de mots de passe robustes</li>
-            <li>Prévention du phishing</li>
-            <li>Bonnes pratiques de sécurité numérique</li>
-          </ul>
-          <div class="skill-tags" style="margin-top:14px;">
-            <span class="tag">Sensibilisation</span>
-            <span class="tag">Communication</span>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- Tableau récapitulatif E6 -->
-    <div style="margin-bottom:48px;">
-      <div class="section-header" style="margin-bottom:24px;">
-        <div class="section-tag">Réalisations</div>
-        <h2 class="section-title">Activités liées à la cybersécurité</h2>
-      </div>
-
-      <div class="table-wrapper reveal">
-        <table>
-          <thead>
-            <tr>
-              <th>Activité</th>
-              <th>Description</th>
-              <th>Contexte</th>
-              <th>Compétence E6</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong style="color:var(--text)">Configuration PfSense</strong></td>
-              <td>Mise en place d'un pare-feu et de règles de filtrage réseau</td>
-              <td>Projet infrastructure VMware</td>
-              <td><span class="tag" style="font-size:0.72rem;padding:4px 10px;">Protéger</span></td>
-            </tr>
-            <tr>
-              <td><strong style="color:var(--text)">Active Directory</strong></td>
-              <td>Gestion des comptes utilisateurs, groupes et stratégies de groupe (GPO)</td>
-              <td>Windows Server 2022</td>
-              <td><span class="tag" style="font-size:0.72rem;padding:4px 10px;">Protéger</span></td>
-            </tr>
-            <tr>
-              <td><strong style="color:var(--text)">Veille cybersécurité</strong></td>
-              <td>Suivi des menaces via ANSSI, ZDNet et The Hacker News</td>
-              <td>Développement professionnel</td>
-              <td><span class="tag" style="font-size:0.72rem;padding:4px 10px;">Analyser</span></td>
-            </tr>
-            <tr>
-              <td><strong style="color:var(--text)">Support VEESION</strong></td>
-              <td>Diagnostic de pannes et résolution d'incidents de sécurité</td>
-              <td>Stage technicien</td>
-              <td><span class="tag" style="font-size:0.72rem;padding:4px 10px;">Surveiller</span></td>
-            </tr>
-            <tr>
-              <td><strong style="color:var(--text)">Sensibilisation utilisateurs</strong></td>
-              <td>Conseils bonnes pratiques lors du support technique</td>
-              <td>Stage VEESION</td>
-              <td><span class="tag" style="font-size:0.72rem;padding:4px 10px;">Sensibiliser</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Notions clés -->
+    <!-- Mes documentations -->
     <div>
       <div class="section-header" style="margin-bottom:24px;">
-        <div class="section-tag">Théorie</div>
-        <h2 class="section-title">Notions clés en cybersécurité</h2>
+        <div class="section-tag">Preuves &amp; Situations professionnelles</div>
+        <h2 class="section-title">Mes documentations techniques</h2>
       </div>
 
+      <div class="card-grid reveal">
+
+        <a href="documentationad.pdf" target="_blank" class="doc-card">
+          <div class="card-accent"></div>
+          <div class="doc-card-top">
+            <div class="doc-card-icon" style="background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(0,212,255,0.05));border:1px solid var(--border);">🖥️</div>
+            <div>
+              <div class="doc-card-meta">Documentation technique · PDF</div>
+              <div class="doc-card-title">Active Directory & Services réseau</div>
+            </div>
+          </div>
+          <p>Installation complète d'Active Directory sur Windows Server 2012 R2 : AD DS, DNS, DHCP (8 VLANs), unités d'organisation, GPO, FTP/IIS et scripts PowerShell.</p>
+          <div class="skill-tags" style="margin-bottom:0;">
+            <span class="tag">Windows Server</span>
+            <span class="tag">AD DS</span>
+            <span class="tag">DHCP</span>
+            <span class="tag">DNS</span>
+            <span class="tag">GPO</span>
+            <span class="tag">FTP</span>
+          </div>
+          <div class="doc-card-footer">
+            <span style="font-size:0.75rem;color:var(--muted);">Domaine : stadiumcompany.com · Serveur : HERMES</span>
+            <span class="doc-card-open" style="color:var(--accent);">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Ouvrir
+            </span>
+          </div>
+        </a>
+
+        <a href="documentationglpi.pdf" target="_blank" class="doc-card">
+          <div class="card-accent"></div>
+          <div class="doc-card-top">
+            <div class="doc-card-icon" style="background:linear-gradient(135deg,rgba(126,255,212,0.15),rgba(126,255,212,0.03));border:1px solid rgba(126,255,212,0.2);">🎫</div>
+            <div>
+              <div class="doc-card-meta">Documentation technique · PDF</div>
+              <div class="doc-card-title">GLPI — Système de ticketing</div>
+            </div>
+          </div>
+          <p>Installation de GLPI sur Linux : MariaDB, Apache, PHP, phpMyAdmin. Mise en place d'un système de gestion des incidents (ITSM) et suivi des tickets de support.</p>
+          <div class="skill-tags" style="margin-bottom:0;">
+            <span class="tag green">Linux</span>
+            <span class="tag green">MariaDB</span>
+            <span class="tag green">Apache</span>
+            <span class="tag green">PHP</span>
+            <span class="tag green">GLPI</span>
+            <span class="tag green">ITSM</span>
+          </div>
+          <div class="doc-card-footer">
+            <span style="font-size:0.75rem;color:var(--muted);">Gestion des incidents · Support N1/N2</span>
+            <span class="doc-card-open" style="color:var(--accent3);">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Ouvrir
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Conseils -->
+    <div style="margin-top:48px;">
+      <div class="section-header" style="margin-bottom:24px;">
+        <div class="section-tag">Préparation</div>
+        <h2 class="section-title">Conseils pour réussir</h2>
+      </div>
       <div class="card reveal">
         <div class="card-accent"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
           <div>
-            <h3 style="margin-top:0;">🦠 Types d'attaques</h3>
+            <h3 style="margin-top:0;">✅ Bons réflexes</h3>
             <ul>
-              <li>Ransomware — chiffrement des données contre rançon</li>
-              <li>Phishing — hameçonnage par email frauduleux</li>
-              <li>DDoS — saturation d'un service en ligne</li>
-              <li>Injection SQL — exploitation des bases de données</li>
-              <li>Man-in-the-Middle — interception des communications</li>
+              <li>Lire attentivement l'énoncé avant de commencer</li>
+              <li>Commencer par les éléments essentiels de la solution</li>
+              <li>Tester au fur et à mesure, ne pas tout tester à la fin</li>
+              <li>Utiliser un vocabulaire technique précis devant le jury</li>
+              <li>Rester calme et structuré en cas de blocage</li>
+              <li>Documenter sa configuration au fur et à mesure</li>
             </ul>
           </div>
           <div>
-            <h3 style="margin-top:0;">🛡️ Mesures de protection</h3>
+            <h3 style="margin-top:0;">❌ Erreurs à éviter</h3>
             <ul>
-              <li>Pare-feu (PfSense, Windows Defender Firewall)</li>
-              <li>VPN — chiffrement des communications</li>
-              <li>Antivirus et EDR</li>
-              <li>Principe du moindre privilège (comptes AD)</li>
-              <li>Mises à jour et patchs de sécurité</li>
-            </ul>
-          </div>
-          <div>
-            <h3>📜 Cadre légal & normes</h3>
-            <ul>
-              <li>RGPD — protection des données personnelles</li>
-              <li>Recommandations ANSSI</li>
-              <li>ISO/IEC 27001 — gestion de la sécurité SI</li>
-              <li>PSSI — Politique de Sécurité des SI</li>
-            </ul>
-          </div>
-          <div>
-            <h3>🔑 Concepts fondamentaux</h3>
-            <ul>
-              <li>CIA : Confidentialité, Intégrité, Disponibilité</li>
-              <li>Authentification forte (MFA)</li>
-              <li>Chiffrement des données (AES, RSA, TLS)</li>
-              <li>Sauvegardes (règle 3-2-1)</li>
+              <li>Se lancer dans une solution trop complexe pour 1h</li>
+              <li>Négliger la phase d'analyse initiale (les 30 min)</li>
+              <li>Ne pas écouter les remarques du jury</li>
+              <li>S'obstiner dans une voie sans issue</li>
+              <li>Ne pas tester sa solution avant la fin du temps</li>
+              <li>Oublier de préparer ses 2 situations professionnelles</li>
             </ul>
           </div>
         </div>
