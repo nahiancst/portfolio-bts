@@ -29,9 +29,17 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.05 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => {
+  // Si déjà visible dans le viewport au chargement, afficher directement
+  const rect = el.getBoundingClientRect();
+  if (rect.top < window.innerHeight) {
+    el.classList.add('visible');
+  } else {
+    observer.observe(el);
+  }
+});
 
 // Active nav link
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
