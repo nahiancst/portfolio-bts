@@ -5,6 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veille Technologique — Nahian CHISTY</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .veille-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .veille-card:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-3px); }
+  .veille-card .top-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .veille-card:hover .top-bar { opacity: 1; }
+  .veille-num {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .veille-titre {
+    font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+    color: #fff; margin-bottom: 20px;
+  }
+  .veille-texte {
+    font-size: 0.9rem; color: var(--muted); line-height: 1.8; margin-bottom: 20px;
+  }
+  .veille-texte strong { color: var(--text); }
+  .veille-lien {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 8px; padding: 9px 16px; color: var(--accent);
+    font-size: 0.82rem; font-weight: 700; text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .veille-lien:hover { background: rgba(0,212,255,0.15); border-color: var(--accent); }
+</style>
 </head>
 <body>
 
@@ -13,7 +53,7 @@
 
 <nav>
   <a href="index.html" class="nav-logo">NC.</a>
-    <ul class="nav-links">
+  <ul class="nav-links">
     <li><a href="index.html">Accueil</a></li>
     <li><a href="profil.html">Profil</a></li>
     <li><a href="stages.html">Stages</a></li>
@@ -26,115 +66,83 @@
 
 <main class="page">
   <div class="page-header">
-    <div class="section-tag">Actualités</div>
+    <div class="section-tag">Cybersécurité</div>
     <h1>Veille Technologique</h1>
-    <p>Suivi régulier de l'actualité en cybersécurité pour rester à jour sur les menaces et solutions.</p>
+    <p>Suivi régulier de l'actualité en cybersécurité via l'ANSSI, ZDNet et The Hacker News.</p>
   </div>
 
   <div class="section" style="padding-top:0;">
 
-    <!-- Sujet principal -->
-    <div class="card reveal" style="margin-bottom:40px;">
-      <div class="card-accent"></div>
-      <h2><span class="icon">🔒</span> Sujet : Cybersécurité</h2>
-      <p>
-        La cybersécurité est un enjeu majeur dans le domaine informatique moderne. Dans un contexte où les cyberattaques
-        se multiplient et se complexifient, il est indispensable pour un technicien SISR de suivre en permanence l'évolution
-        des menaces, des failles et des solutions de protection.
-      </p>
-      <p style="margin-top:12px;">
-        Ma veille couvre plusieurs axes : les nouvelles vulnérabilités (CVE), les attaques récentes (ransomware, phishing, DDoS),
-        les recommandations de l'ANSSI et les outils de sécurisation des infrastructures.
-      </p>
+    <!-- Veille 1 -->
+    <div class="veille-card">
+      <div class="top-bar"></div>
+      <div class="veille-num">Veille N°1</div>
+      <div class="veille-titre">🦠 Les Ransomwares en France en 2025</div>
+      <div class="veille-texte">
+        Un ransomware est un logiciel malveillant qui bloque l'accès à tous les fichiers d'un ordinateur ou d'un serveur, et exige une rançon pour les récupérer. En 2025, cette menace a fortement progressé en France après une accalmie en 2024.<br><br>
+        Selon les données de l'ANSSI, <strong>128 attaques par ransomware</strong> ont été recensées en France en 2025. Les principales victimes sont les hôpitaux, les mairies et les PME. Les groupes les plus actifs sont Qilin (21% des attaques), Akira (9%) et LockBit. Ce qui est inquiétant, c'est que ces groupes utilisent désormais l'IA pour automatiser leurs attaques, les rendant plus rapides et plus difficiles à détecter.<br><br>
+        En tant que technicien SISR, cela me concerne directement : je dois m'assurer que les serveurs que je gère sont bien sauvegardés et mis à jour pour éviter d'être une cible facile.
+      </div>
+      <a href="https://www.lemagit.fr/actualites/366636811/Ransomware-2025-lannee-de-la-reprise-en-France" target="_blank" rel="noopener noreferrer" class="veille-lien">
+        🔗 Lire l'article — LeMagIT : Ransomware 2025, l'année de la reprise en France
+      </a>
     </div>
 
-    <div class="card-grid" style="margin-bottom:40px;">
-
-      <!-- Objectifs -->
-      <div class="card reveal">
-        <div class="card-accent"></div>
-        <h2><span class="icon">🎯</span> Objectifs de la veille</h2>
-        <ul>
-          <li>Suivre les nouvelles menaces et vulnérabilités (CVE)</li>
-          <li>Comprendre les techniques d'attaques utilisées</li>
-          <li>Identifier les outils et solutions de sécurité</li>
-          <li>Anticiper les risques pour mieux protéger les infrastructures</li>
-          <li>Appliquer les recommandations officielles (ANSSI)</li>
-        </ul>
+    <!-- Veille 2 -->
+    <div class="veille-card">
+      <div class="top-bar"></div>
+      <div class="veille-num">Veille N°2</div>
+      <div class="veille-titre">🎣 Le Phishing dopé à l'Intelligence Artificielle</div>
+      <div class="veille-texte">
+        Le phishing est une attaque où un hacker envoie un faux email en se faisant passer pour une personne de confiance (banque, collègue, patron) pour récupérer tes identifiants ou te faire cliquer sur un lien piégé.<br><br>
+        En 2025, cette technique a évolué avec l'IA : <strong>80% des campagnes de phishing sont maintenant générées par intelligence artificielle</strong>. Les emails sont personnalisés avec le nom de la victime, son poste, et imitent parfaitement les communications internes de l'entreprise. Le phishing par QR code a aussi explosé avec plus de <strong>4 millions de tentatives</strong> rien qu'en France. Selon l'ANSSI, plus de 80% des cyberattaques commencent par un email frauduleux.<br><br>
+        C'est une menace importante à connaître pour un technicien, car même un pare-feu bien configuré ne peut pas protéger une entreprise si un employé clique sur un mauvais lien.
       </div>
+      <a href="https://www.proselis.com/phishing-une-recrudescence-inquietante-a-la-rentree-2025/" target="_blank" rel="noopener noreferrer" class="veille-lien">
+        🔗 Lire l'article — Proselis : Phishing, une recrudescence inquiétante en 2025
+      </a>
+    </div>
 
-      <!-- Outils de veille -->
-      <div class="card reveal">
-        <div class="card-accent"></div>
-        <h2><span class="icon">🛠️</span> Outils utilisés</h2>
-        <ul>
-          <li>Google Alerts — alertes automatiques sur mots-clés cybersécurité</li>
-          <li>Flux RSS — agrégation des articles de sources spécialisées</li>
-          <li>Sites spécialisés — lecture régulière d'articles techniques</li>
-          <li>Newsletters — abonnement à des lettres d'information sécurité</li>
-          <li>CVE Database — suivi des failles et vulnérabilités officielles</li>
-        </ul>
+    <!-- Veille 3 -->
+    <div class="veille-card">
+      <div class="top-bar"></div>
+      <div class="veille-num">Veille N°3</div>
+      <div class="veille-titre">🛡️ La Cybersécurité des entreprises françaises en 2025</div>
+      <div class="veille-texte">
+        Chaque année, le baromètre CESIN dresse un état des lieux de la cybersécurité en France auprès des grandes entreprises et ETI. Les résultats de 2025 montrent que la situation reste préoccupante.<br><br>
+        <strong>Près d'une entreprise française sur deux</strong> a subi une cyberattaque majeure en 2024, et dans 65% des cas l'activité a été perturbée de façon significative. Le vol de données touche désormais 42% des victimes. Les PME sont particulièrement touchées car elles ont moins de moyens pour se défendre. Pour y remédier, de plus en plus d'entreprises adoptent des solutions comme le <strong>MFA (authentification double facteur)</strong>, les EDR (outils de détection avancée) et l'architecture Zero Trust.<br><br>
+        Ces chiffres montrent l'importance du rôle d'un technicien SISR dans la sécurisation des infrastructures et la sensibilisation des utilisateurs.
       </div>
-
+      <a href="https://dfm.fr/articles/etat-lieux-cybersecurite-france-2025/" target="_blank" rel="noopener noreferrer" class="veille-lien">
+        🔗 Lire l'article — DFM : État des lieux de la cybersécurité en France 2025
+      </a>
     </div>
 
     <!-- Sources -->
-    <div>
+    <div style="margin-top:16px;">
       <div class="section-header" style="margin-bottom:24px;">
         <div class="section-tag">Ressources</div>
-        <h2 class="section-title">Sources de veille</h2>
+        <h2 class="section-title">Mes sources de veille</h2>
       </div>
-
-      <div class="veille-grid reveal">
-        <a href="https://www.cert.ssi.gouv.fr/" target="_blank" class="veille-source">
+      <div class="veille-grid">
+        <a href="https://www.cert.ssi.gouv.fr/" target="_blank" rel="noopener noreferrer" class="veille-source">
           <div class="veille-source-label">Gouvernement français</div>
           <div class="veille-source-name">🇫🇷 ANSSI — CERT-FR</div>
-          <div class="veille-source-desc">Avis et alertes officiels du Centre gouvernemental de veille, d'alerte et de réponse aux attaques informatiques.</div>
+          <div class="veille-source-desc">Alertes officielles et recommandations de l'agence nationale de cybersécurité française.</div>
           <span class="tag" style="align-self:flex-start;margin-top:8px;">Officiel</span>
         </a>
-
-        <a href="https://www.zdnet.fr/actualites/securite/" target="_blank" class="veille-source">
+        <a href="https://www.zdnet.fr/actualites/securite/" target="_blank" rel="noopener noreferrer" class="veille-source">
           <div class="veille-source-label">Actualités tech</div>
           <div class="veille-source-name">📰 ZDNet France — Sécurité</div>
-          <div class="veille-source-desc">Actualités en cybersécurité, analyses et dossiers sur les menaces, failles et solutions pour les entreprises.</div>
+          <div class="veille-source-desc">Articles et analyses sur les cybermenaces, failles et solutions de protection.</div>
           <span class="tag" style="align-self:flex-start;margin-top:8px;">Actualités</span>
         </a>
-
-        <a href="https://thehackernews.com/" target="_blank" class="veille-source">
+        <a href="https://thehackernews.com/" target="_blank" rel="noopener noreferrer" class="veille-source">
           <div class="veille-source-label">English source</div>
           <div class="veille-source-name">🌐 The Hacker News</div>
-          <div class="veille-source-desc">Référence internationale en cybersécurité : actualités quotidiennes sur les cyberattaques, malwares et vulnérabilités.</div>
+          <div class="veille-source-desc">Référence mondiale en cybersécurité : actualités quotidiennes sur les attaques et vulnérabilités.</div>
           <span class="tag green" style="align-self:flex-start;margin-top:8px;">International</span>
         </a>
-      </div>
-    </div>
-
-    <!-- Exemples de sujets suivis -->
-    <div style="margin-top:48px;">
-      <div class="section-header" style="margin-bottom:24px;">
-        <div class="section-tag">Thématiques</div>
-        <h2 class="section-title">Sujets suivis</h2>
-      </div>
-      <div class="card reveal">
-        <div class="card-accent"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-          <div>
-            <h3 style="margin-top:0;">🦠 Malwares & Ransomwares</h3>
-            <p>Suivi des nouvelles familles de logiciels malveillants, techniques de propagation et méthodes de défense.</p>
-          </div>
-          <div>
-            <h3 style="margin-top:0;">🎣 Phishing & Ingénierie sociale</h3>
-            <p>Évolution des techniques de manipulation, campagnes ciblées et bonnes pratiques de sensibilisation.</p>
-          </div>
-          <div>
-            <h3>🔓 Vulnérabilités & CVE</h3>
-            <p>Veille sur les nouvelles failles dans les systèmes d'exploitation, logiciels et équipements réseau.</p>
-          </div>
-          <div>
-            <h3>🛡️ Sécurisation des infrastructures</h3>
-            <p>Recommandations ANSSI, bonnes pratiques de durcissement des systèmes Windows Server et Linux.</p>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -143,7 +151,7 @@
 
 <footer>
   <span>© 2025 Nahian CHISTY — BTS SIO SISR · EFREI Villejuif</span>
-  <span style="color:var(--accent)">Portfolio E5</span>
+  <span style="color:var(--accent)">Portfolio E5 · E6</span>
 </footer>
 
 <script src="script.js"></script>
